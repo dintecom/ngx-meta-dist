@@ -1,0 +1,45 @@
+{
+  "name": "@ngx-meta/core",
+  "version": "12.0.0",
+  "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fulls1z3/ngx-meta.git"
+  },
+  "keywords": [
+    "open graph",
+    "page title",
+    "meta tags",
+    "server side rendering",
+    "dom",
+    "seo",
+    "meta",
+    "universal",
+    "angular"
+  ],
+  "author": {
+    "name": "Burak Tasci",
+    "email": "mail@buraktasci.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fulls1z3/ngx-meta/core/issues"
+  },
+  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
+  "peerDependencies": {
+    "@angular/common": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "@angular/platform-browser": "^12.0.0",
+    "@angular/router": "^12.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  },
+  "main": "bundles/ngx-meta-core.umd.js",
+  "module": "fesm2015/ngx-meta-core.js",
+  "es2015": "fesm2015/ngx-meta-core.js",
+  "esm2015": "esm2015/ngx-meta-core.js",
+  "fesm2015": "fesm2015/ngx-meta-core.js",
+  "typings": "ngx-meta-core.d.ts",
+  "sideEffects": false
+}
