@@ -1,0 +1,10 @@
+/*
+ * Public API Surface of core
+ */
+export * from './lib/meta.guard';
+export * from './lib/meta.loader';
+export * from './lib/meta.module';
+export * from './lib/meta.service';
+export * from './lib/models/meta-settings';
+export * from './lib/models/page-title-positioning';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3Byb2plY3RzL25neC1tZXRhL2NvcmUvc3JjL3B1YmxpYy1hcGkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0dBRUc7QUFFSCxjQUFjLGtCQUFrQixDQUFDO0FBQ2pDLGNBQWMsbUJBQW1CLENBQUM7QUFDbEMsY0FBYyxtQkFBbUIsQ0FBQztBQUNsQyxjQUFjLG9CQUFvQixDQUFDO0FBQ25DLGNBQWMsNEJBQTRCLENBQUM7QUFDM0MsY0FBYyxxQ0FBcUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBQdWJsaWMgQVBJIFN1cmZhY2Ugb2YgY29yZVxuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vbGliL21ldGEuZ3VhcmQnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvbWV0YS5sb2FkZXInO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvbWV0YS5tb2R1bGUnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvbWV0YS5zZXJ2aWNlJztcbmV4cG9ydCAqIGZyb20gJy4vbGliL21vZGVscy9tZXRhLXNldHRpbmdzJztcbmV4cG9ydCAqIGZyb20gJy4vbGliL21vZGVscy9wYWdlLXRpdGxlLXBvc2l0aW9uaW5nJztcbiJdfQ==

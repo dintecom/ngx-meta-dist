@@ -23,7 +23,7 @@ class MetaLoader {
 class MetaStaticLoader {
     constructor(providedSettings = {
         pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-        defaults: {}
+        defaults: {},
     }) {
         this.providedSettings = providedSettings;
     }
@@ -43,10 +43,9 @@ class MetaService {
     setTitle(title, override = false) {
         const title$ = title ? this.callback(title) : of('');
         title$.subscribe(res => {
-            var _a;
             let fullTitle = '';
             if (!res) {
-                const defaultTitle$ = ((_a = this.settings.defaults) === null || _a === void 0 ? void 0 : _a.title) ? this.callback(this.settings.defaults.title) : of('');
+                const defaultTitle$ = this.settings.defaults?.title ? this.callback(this.settings.defaults.title) : of('');
                 defaultTitle$.subscribe(defaultTitle => {
                     if (!override && this.settings.pageTitleSeparator && this.settings.applicationName) {
                         this.callback(this.settings.applicationName).subscribe(applicationName => {
@@ -71,20 +70,18 @@ class MetaService {
         });
     }
     setTag(key, value) {
-        var _a;
         if (key === 'title') {
             throw new Error(`Attempt to set ${key} through "setTag": "title" is a reserved tag name. ` + 'Please use `MetaService.setTitle` instead.');
         }
-        const cur = value || ((_a = this.settings.defaults) === null || _a === void 0 ? void 0 : _a[key]) || '';
+        const cur = value || this.settings.defaults?.[key] || '';
         const value$ = key !== 'og:locale' && key !== 'og:locale:alternate' ? this.callback(cur) : of(cur);
         value$.subscribe(res => {
             this.updateTag(key, res);
         });
     }
     update(currentUrl, metaSettings) {
-        var _a;
         if (!metaSettings) {
-            const fallbackTitle = ((_a = this.settings.defaults) === null || _a === void 0 ? void 0 : _a.title) || this.settings.applicationName || '';
+            const fallbackTitle = this.settings.defaults?.title || this.settings.applicationName || '';
             this.setTitle(fallbackTitle, true);
         }
         else {
@@ -160,8 +157,7 @@ class MetaService {
         });
     }
     updateLocales(currentLocale, availableLocales) {
-        var _a;
-        const cur = currentLocale || ((_a = this.settings.defaults) === null || _a === void 0 ? void 0 : _a['og:locale']) || '';
+        const cur = currentLocale || this.settings.defaults?.['og:locale'] || '';
         if (cur && this.settings.defaults) {
             this.settings.defaults['og:locale'] = cur.replace(/_/g, '-');
         }
@@ -184,7 +180,6 @@ class MetaService {
         }
     }
     updateTag(key, value) {
-        var _a, _b, _c, _d;
         if (key.lastIndexOf('og:', 0) === 0) {
             this.meta.updateTag({
                 property: key,
@@ -217,20 +212,20 @@ class MetaService {
             });
         }
         else if (key === 'og:locale') {
-            const availableLocales = (_b = (_a = this.settings.defaults) === null || _a === void 0 ? void 0 : _a['og:locale:alternate']) !== null && _b !== void 0 ? _b : '';
+            const availableLocales = this.settings.defaults?.['og:locale:alternate'] ?? '';
             this.updateLocales(value, availableLocales);
             this.isMetaTagSet['og:locale:alternate'] = true;
         }
         else if (key === 'og:locale:alternate') {
-            const currentLocale = (_d = (_c = this.meta.getTag('property="og:locale"')) === null || _c === void 0 ? void 0 : _c.content) !== null && _d !== void 0 ? _d : '';
+            const currentLocale = this.meta.getTag('property="og:locale"')?.content ?? '';
             this.updateLocales(currentLocale, value);
             this.isMetaTagSet['og:locale'] = true;
         }
     }
 }
-MetaService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable });
-MetaService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaService, decorators: [{
+MetaService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable });
+MetaService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaService, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return [{ type: MetaLoader }, { type: i2.Title }, { type: i2.Meta }]; } });
 
@@ -240,7 +235,7 @@ class MetaGuard {
     }
     canActivate(route, state) {
         const url = state.url;
-        const metaSettings = route.hasOwnProperty('data') ? route.data.meta : undefined;
+        const metaSettings = route.hasOwnProperty('data') ? route.data['meta'] : undefined;
         this.meta.update(url, metaSettings);
         return true;
     }
@@ -248,9 +243,9 @@ class MetaGuard {
         return this.canActivate(route, state);
     }
 }
-MetaGuard.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaGuard, deps: [{ token: MetaService }], target: i0.ɵɵFactoryTarget.Injectable });
-MetaGuard.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaGuard });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaGuard, decorators: [{
+MetaGuard.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaGuard, deps: [{ token: MetaService }], target: i0.ɵɵFactoryTarget.Injectable });
+MetaGuard.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaGuard });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaGuard, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return [{ type: MetaService }]; } });
 
@@ -263,18 +258,18 @@ class MetaModule {
     }
     static forRoot(configuredProvider = {
         provide: MetaLoader,
-        useFactory: metaFactory
+        useFactory: metaFactory,
     }) {
         return {
             ngModule: MetaModule,
-            providers: [configuredProvider, MetaGuard, MetaService]
+            providers: [configuredProvider, MetaGuard, MetaService],
         };
     }
 }
-MetaModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaModule, deps: [{ token: MetaModule, optional: true, skipSelf: true }], target: i0.ɵɵFactoryTarget.NgModule });
-MetaModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaModule });
-MetaModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.0.0", ngImport: i0, type: MetaModule, decorators: [{
+MetaModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaModule, deps: [{ token: MetaModule, optional: true, skipSelf: true }], target: i0.ɵɵFactoryTarget.NgModule });
+MetaModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaModule });
+MetaModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaModule });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.3", ngImport: i0, type: MetaModule, decorators: [{
             type: NgModule
         }], ctorParameters: function () { return [{ type: MetaModule, decorators: [{
                     type: Optional
@@ -291,4 +286,4 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.0.0", ngImpor
  */
 
 export { MetaGuard, MetaLoader, MetaModule, MetaService, MetaStaticLoader, PageTitlePositioning, metaFactory };
-//# sourceMappingURL=ngx-meta-core.js.map
+//# sourceMappingURL=ngx-meta-core.mjs.map

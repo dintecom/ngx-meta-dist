@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
@@ -27,19 +27,32 @@
   },
   "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
   "peerDependencies": {
-    "@angular/common": "^12.0.0",
-    "@angular/core": "^12.0.0",
-    "@angular/platform-browser": "^12.0.0",
-    "@angular/router": "^12.0.0"
+    "@angular/common": "^12.0.0 || ^13.0.0",
+    "@angular/core": "^12.0.0 || ^13.0.0",
+    "@angular/platform-browser": "^12.0.0 || ^13.0.0",
+    "@angular/router": "^12.0.0 || ^13.0.0"
   },
   "dependencies": {
     "tslib": "^2.1.0"
   },
-  "main": "bundles/ngx-meta-core.umd.js",
-  "module": "fesm2015/ngx-meta-core.js",
-  "es2015": "fesm2015/ngx-meta-core.js",
-  "esm2015": "esm2015/ngx-meta-core.js",
-  "fesm2015": "fesm2015/ngx-meta-core.js",
+  "module": "fesm2015/ngx-meta-core.mjs",
+  "es2020": "fesm2020/ngx-meta-core.mjs",
+  "esm2020": "esm2020/ngx-meta-core.mjs",
+  "fesm2020": "fesm2020/ngx-meta-core.mjs",
+  "fesm2015": "fesm2015/ngx-meta-core.mjs",
   "typings": "ngx-meta-core.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./ngx-meta-core.d.ts",
+      "esm2020": "./esm2020/ngx-meta-core.mjs",
+      "es2020": "./fesm2020/ngx-meta-core.mjs",
+      "es2015": "./fesm2015/ngx-meta-core.mjs",
+      "node": "./fesm2015/ngx-meta-core.mjs",
+      "default": "./fesm2020/ngx-meta-core.mjs"
+    }
+  },
   "sideEffects": false
 }
