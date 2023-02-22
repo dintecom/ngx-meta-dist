@@ -23,8 +23,8 @@ route configuration.
 
 - [Getting started](#getting-started)
   - [Installation](#installation) - [Examples](#examples) - [Recommended packages](#recommended-packages) - [Adding `@ngx-meta/core` to your project (SystemJS)](#adding-systemjs) - [Route configuration](#route-config)
-  - [app.module configuration](#appmodule-config)
-- [Settings](#settings) - [Setting up `MetaModule` to use `MetaStaticLoader`](#setting-up-staticloader) - [Using a `callback` function](#using-a-callback-function)
+  - [bootstrapApplication configuration](#bootstrap-application-config)
+- [Settings](#settings) - [Setting up `provideEnvironmentMeta` to use `MetaStaticLoader`](#setting-up-staticloader) - [Using a `callback` function](#using-a-callback-function)
 - [Set meta tags programmatically](#set-meta-tags-programmatically)
 - [Credits](#credits)
 - [License](#license)
@@ -109,37 +109,31 @@ export const routes: Routes = [
 ];
 ```
 
-### <a name="appmodule-config"></a> app.module configuration
+### <a name="bootstrap-application-config"></a> bootstrapApplication configuration
 
-Import `MetaModule` using the mapping `'@ngx-meta/core'` and append `MetaModule.forRoot({...})` within the imports property
-of **app.module** (_considering the app.module is the core module in Angular application_).
+Import `provideEnvironmentMeta` using the mapping `'@ngx-meta/core'` and append `provideEnvironmentMeta({...})` within the providers property
+of **main** (_considering the main is the core module in Angular application_).
 
 #### app.module.ts
 
 ```TypeScript
 ...
-import { MetaModule } from '@ngx-meta/core';
+import { provideEnvironmentMeta } from '@ngx-meta/core';
 ...
 
-@NgModule({
-  declarations: [
-    AppComponent,
+bootstrapApplication(AppComponent, {
+  providers: [
+    ...
+    provideRouter(routes),
+    provideEnvironmentMeta(),
     ...
   ],
-  ...
-  imports: [
-    ...
-    RouterModule.forRoot(routes),
-    MetaModule.forRoot()
-  ],
-  ...
-  bootstrap: [AppComponent]
-})
+}).catch((err) => console.error(err));
 ```
 
 ## <a name="settings"></a> Settings
 
-You can call the [forRoot] static method using the `MetaStaticLoader`. By default, it is configured to **prepend page titles**
+You can call the [provideEnvironmentMeta] using the `MetaStaticLoader`. By default, it is configured to **prepend page titles**
 after the **application name** (_if any set_). These **default meta settings** are used when a route doesn't contain any
 `meta` settings in its `data` property.
 
@@ -147,7 +141,7 @@ after the **application name** (_if any set_). These **default meta settings** a
 
 The following example shows the use of an exported function (_instead of an inline function_) for [AoT compilation].
 
-### <a name="setting-up-staticloader"></a> Setting up `MetaModule` to use `MetaStaticLoader`
+### <a name="setting-up-staticloader"></a> Setting up `provideEnvironmentMeta` to use `MetaStaticLoader`
 
 #### app.module.ts
 
@@ -174,23 +168,17 @@ export function metaFactory(): MetaLoader {
 
 ...
 
-@NgModule({
-  declarations: [
-    AppComponent,
+bootstrapApplication(AppComponent, {
+  providers: [
     ...
-  ],
-  ...
-  imports: [
-    ...
-    RouterModule.forRoot(routes),
-    MetaModule.forRoot({
+    provideRouter(routes),
+    provideEnvironmentMeta({
       provide: MetaLoader,
       useFactory: (metaFactory)
-    })
+    }),
+    ...
   ],
-  ...
-  bootstrap: [AppComponent]
-})
+}).catch((err) => console.error(err));
 ```
 
 `MetaStaticLoader` has one parameter:
@@ -237,24 +225,18 @@ export function metaFactory(translate: TranslateService): MetaLoader {
 
 ...
 
-@NgModule({
-  declarations: [
-    AppComponent,
+bootstrapApplication(AppComponent, {
+  providers: [
     ...
-  ],
-  ...
-  imports: [
-    ...
-    RouterModule.forRoot(routes),
-    MetaModule.forRoot({
+    provideRouter(routes),
+    provideEnvironmentMeta({
       provide: MetaLoader,
       useFactory: (metaFactory),
       deps: [TranslateService]
-    })
+    }),
+    ...
   ],
-  ...
-  bootstrap: [AppComponent]
-})
+}).catch((err) => console.error(err));
 ```
 
 #### app.component.ts
@@ -349,6 +331,5 @@ Copyright (c) 2019 [Burak Tasci]
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
-[forroot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root
 [aot compilation]: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html
 [burak tasci]: https://github.com/fulls1z3

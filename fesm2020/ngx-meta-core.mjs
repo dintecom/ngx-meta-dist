@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { Injectable, NgModule, Optional, SkipSelf } from '@angular/core';
+import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { of, from } from 'rxjs';
 import * as i2 from '@angular/platform-browser';
 
@@ -21,14 +21,14 @@ const isObservable = (obj) => !!obj && typeof obj.subscribe === 'function';
 class MetaLoader {
 }
 class MetaStaticLoader {
+    get settings() {
+        return this.providedSettings;
+    }
     constructor(providedSettings = {
         pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
         defaults: {},
     }) {
         this.providedSettings = providedSettings;
-    }
-    get settings() {
-        return this.providedSettings;
     }
 }
 
@@ -223,9 +223,9 @@ class MetaService {
         }
     }
 }
-MetaService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable });
-MetaService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaService, decorators: [{
+MetaService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable });
+MetaService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaService, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return [{ type: MetaLoader }, { type: i2.Title }, { type: i2.Meta }]; } });
 
@@ -243,39 +243,19 @@ class MetaGuard {
         return this.canActivate(route, state);
     }
 }
-MetaGuard.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaGuard, deps: [{ token: MetaService }], target: i0.ɵɵFactoryTarget.Injectable });
-MetaGuard.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaGuard });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaGuard, decorators: [{
+MetaGuard.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaGuard, deps: [{ token: MetaService }], target: i0.ɵɵFactoryTarget.Injectable });
+MetaGuard.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaGuard });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.5", ngImport: i0, type: MetaGuard, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return [{ type: MetaService }]; } });
 
 const metaFactory = () => new MetaStaticLoader();
-class MetaModule {
-    constructor(parentModule) {
-        if (parentModule) {
-            throw new Error('MetaModule already loaded; import in root module only.');
-        }
-    }
-    static forRoot(configuredProvider = {
-        provide: MetaLoader,
-        useFactory: metaFactory,
-    }) {
-        return {
-            ngModule: MetaModule,
-            providers: [configuredProvider, MetaGuard, MetaService],
-        };
-    }
+function provideEnvironmentMeta(configuredProvider = {
+    provide: MetaLoader,
+    useFactory: metaFactory,
+}) {
+    return makeEnvironmentProviders([configuredProvider, MetaGuard, MetaService]);
 }
-MetaModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaModule, deps: [{ token: MetaModule, optional: true, skipSelf: true }], target: i0.ɵɵFactoryTarget.NgModule });
-MetaModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "14.0.0", ngImport: i0, type: MetaModule });
-MetaModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.0", ngImport: i0, type: MetaModule, decorators: [{
-            type: NgModule
-        }], ctorParameters: function () { return [{ type: MetaModule, decorators: [{
-                    type: Optional
-                }, {
-                    type: SkipSelf
-                }] }]; } });
 
 /*
  * Public API Surface of core
@@ -285,5 +265,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.0", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { MetaGuard, MetaLoader, MetaModule, MetaService, MetaStaticLoader, PageTitlePositioning, metaFactory };
+export { MetaGuard, MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning, metaFactory, provideEnvironmentMeta };
 //# sourceMappingURL=ngx-meta-core.mjs.map
