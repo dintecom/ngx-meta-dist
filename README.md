@@ -53,7 +53,7 @@ The following package(s) have no dependency for **`@ngx-meta/core`**, however ma
 
 ### <a name="route-config"></a> Route configuration
 
-Import `MetaGuard` using the mapping `'@ngx-meta/core'` and append `canActivate: [MetaGuard]` or `canActivateChild: [MetaGuard]`
+Import `metaGuard` using the mapping `'@ngx-meta/core'` and append `canActivate: [metaGuard()]` or `canActivateChild: [metaGuard()]`
 properties to the route definitions at **app.routes** (_considering the app.routes is the route definitions in Angular application_).
 
 Then, add `meta` settings inside the `data` property of routes.
@@ -65,12 +65,12 @@ Then, add `meta` settings inside the `data` property of routes.
 
 ```TypeScript
 ...
-import { MetaGuard } from '@ngx-meta/core';
+import { metaGuard } from '@ngx-meta/core';
 ...
 export const routes: Routes = [
   {
     path: '',
-    canActivateChild: [MetaGuard],
+    canActivateChild: [metaGuard()],
     children: [
       {
         path: 'home',
