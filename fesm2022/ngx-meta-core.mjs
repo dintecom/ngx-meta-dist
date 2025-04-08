@@ -222,12 +222,12 @@ class MetaService {
             this.isMetaTagSet['og:locale'] = true;
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.1", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.1", ngImport: i0, type: MetaService }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.2.5", ngImport: i0, type: MetaService, deps: [{ token: MetaLoader }, { token: i2.Title }, { token: i2.Meta }], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "19.2.5", ngImport: i0, type: MetaService }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.1", ngImport: i0, type: MetaService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.2.5", ngImport: i0, type: MetaService, decorators: [{
             type: Injectable
-        }], ctorParameters: function () { return [{ type: MetaLoader }, { type: i2.Title }, { type: i2.Meta }]; } });
+        }], ctorParameters: () => [{ type: MetaLoader }, { type: i2.Title }, { type: i2.Meta }] });
 
 function metaGuard(settings) {
     return (route, state) => {
